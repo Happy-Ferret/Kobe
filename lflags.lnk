@@ -1,0 +1,20 @@
+
+file src/kobe.o
+file src/util.o
+file src/fixed.o
+
+file src/input.o
+file src/time.o
+
+file src/palette.o
+file src/image.o
+
+file src/render.o
+
+file src/t_backgr.o
+file src/t_scroll.o
+file src/t_sprite.o
+
+system dos
+option eliminate
+option verbose

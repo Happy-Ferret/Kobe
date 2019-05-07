@@ -1,3 +1,5 @@
+/*-----------------------------
+
 MIT License
 
 Copyright (c) 2018 Alexander Brandt
@@ -19,3 +21,62 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+-------------------------------
+
+ [t_sprite.c]
+ - Alexander Brandt 2018
+-----------------------------*/
+
+#include "kobe.h"
+#include "util.h"
+
+#include "image.h"
+#include "render.h"
+#include "time.h"
+
+
+/*-----------------------------
+
+ koSpriteTest()
+-----------------------------*/
+int koSpriteTest()
+{
+	uint32_t start = 0;
+	uint32_t render_time = 0;
+	const struct ko_render_state* render_state;
+
+	koPrint(KO_LOG, "###\n\nKobe Sprite Test\n\n");
+
+	if (koInitTimeModule() != 0)
+		goto return_failure;
+
+	if (koRenderInit("res/palette.kp", 960) != 0)
+		goto return_failure;
+
+	/* Test */
+	start = koGetTime();
+
+	if ((render_state = koRenderUpdate()) == NULL)
+		goto return_failure;
+
+	render_time = koGetTime() - start;
+	koSleep(1000);
+
+	/* Bye! */
+	koStopTimeModule();
+	koRenderStop();
+
+	printf("Render time: %lu ms\n", render_time);
+	koPrint(KO_LOG, "Render time: %lu ms\n", render_time);
+
+	return 0;
+
+return_failure:
+	koPrint(KO_LOG, "[Error] SpriteTest()\n");
+
+	koStopTimeModule();
+	koRenderStop();
+
+	return 1;
+}
