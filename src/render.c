@@ -259,7 +259,7 @@ unsigned koRenderInit(const char* palette_filename, unsigned resolution_x)
 	 Get current video mode, again, to check (Int 10/AH=0Fh)
 	 - Looks like different chips, return different values when
 	   the mode is set (above section). So we need to call this
-	   interruptor again. (?)
+	   interruptor again.
 	*/
 	reg.h.ah = 0x0F;
 	koDosInterrupt(0x10, &reg, &reg);
@@ -279,16 +279,14 @@ unsigned koRenderInit(const char* palette_filename, unsigned resolution_x)
 	*/
 	{
 		/*
-		 The next out call is extremely IMPORTANT... and tricko.
+		 The next out call is extremely important... and tricky.
 		 - Sets the vertical and horizontal sync polarity (?).
 		 - And set the "CRT Controller Registers" to address 0x03D4 / D5.
 
-		 ALL THE OUT'S CALLS IN THE ENGINE WRITES TO THAT ADDRESS, SEE
-		 THE MACRO "CRT_REGS" AND "CRT_REGS_DATA"!!!
+		 All the out calls in the engine write to that address, check
+		 the macro "CRT_REGS" and "CRT_REGS_DATA"
 		 */
 		koDosPortOut(0x03C2, 0xE3); /* 0x03C2 = miscellaneous output register */
-
-		/* Sorry for the caps :) */
 
 		koDosPortOut(CRT_REGS, 0x11);      /* 0x11 = vertical retrace end register */
 		koDosPortOut(CRT_REGS_DATA, 0x2C); /* turn off write protect */

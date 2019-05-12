@@ -126,7 +126,7 @@ ko_fixed_t koDivideFixed(ko_fixed_t dividend, ko_fixed_t divisor)
 	edx = edx >> 16; /* SAR edx, 16 */
 	eax = eax << 16; /* SHL eax, 16 */
 
-	/* With lucko, translated into a IDIV instruction: */
+	/* With lucky, translated into a IDIV instruction: */
 	result = ((int64_t)eax | (int64_t)edx << 32) / ((int64_t)divisor);
 
 #endif

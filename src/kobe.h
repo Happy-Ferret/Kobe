@@ -21,7 +21,7 @@
 	#define KO_LOGICAL_WIDTH 960
 	#define KO_LOGICAL_HEIGHT 240
 
-	#define KO_FILENAME_LENGHT 12
+	#define KO_FILENAME_LENGTH 12
 
 	/* Watcom compiler, Intel x86 (real mode) */
 	#ifdef __WATCOMC__

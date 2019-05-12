@@ -18,8 +18,8 @@ Executing `kobe` ([see screenshot](./readme-images/kobe.png)) its mostly the sam
 Some reusable modules:
 - **Time module** over the PIT. Provides 'get' and 'sleep' functions with millisecond precision. Rather than a busy waiting loop uses the `HLT` instruction. Is independent from video code so it allows to not necessary sync the game logic with the video chip. There are no delta calculation, but it should be easy to implement.
 - **Input module**, keyboard support over the PIC, mouse support using interrupts. Nothing fancy but should work, also independent from other code.
-- **Image/Sdk modules**, being frankly I have to say that Mode-X is extremely slow to draw anything (except if you are Carmack or Abrash). So having a 'fast' image format is really useful to load the resources in a single `fread` and drawing them with a few `memcpy` calls, somewhat ignoring the funky planar arrange that the video mode imposes. Of course this is not a requirement to have a fast game (as Wolfenstein 3d show that is possible to draw a real time raytracer using Mode-X³) but think this module and the custom format that reads as a way to avoid the rearrange of upside-down Bmp images during gameplay time. Check the Sdk code, it produces purposely arranged images that the game happily draws without doing anything else⁴. If your idea is to use Mode-13 you still can reuse the Sdk as it provides a left-to-right arrange and Png support.
-- **Render module**, only reusable as reference. Is independent from the rest of the code and do not include hardcoded corners (not much), but is somewhat complicated. But check the lovely commented 'init' function and the c-only draws functions.
+- **Image/Sdk modules**, being frankly I have to say that Mode-X is extremely slow to draw anything (except for Carmack or Abrash). So having a 'fast' image format was really useful to load the resources in a single `fread` and drawing them with a few `memcpy` calls, somewhat ignoring the funky planar arrange that the video mode imposes. Of course this is not a requirement to have a fast game (as Wolfenstein 3d show that is possible to draw a real time raytracer using Mode-X³) but think this module and the custom format that reads as a way to avoid the rearrange of upside-down Bmp images during gameplay time. Check the Sdk code, it produces purposely arranged images that the game happily draws without doing anything else⁴. If your idea is to use Mode-13 you still can reuse the Sdk as it provides a left-to-right arrange and Png support.
+- **Render module**, only reusable as reference. Is independent from the rest of the code and do not include hardcoded corners (not much), but is somewhat complicated. But check the overly commented 'init' function and the c-only 'draws' functions.
 
 
 Compilation
@@ -33,19 +33,19 @@ make sdk
 make resources
 ```
 
-Kobe only cross-compiles under Linux or a Posix variant targeting to a Dos output. So install [OpenWatcomV2](https://open-watcom.github.io/open-watcom/) and then:
+The game only cross-compiles under Linux or a Posix variant targeting to a Dos output. So install [OpenWatcomV2](https://open-watcom.github.io/open-watcom/) and then:
 
 ```
 cd Kobe
 make kobe
 ```
 
-Check the releases, they provide compiled Dos binaries.
+Check the releases, they provide compiled Kobe binaries.
 
 
 Issues/Pull Requests
 --------------------
-Is not my idea to continue the project, I publishing it as an example of an working Mode-X prototype with the hope of being useful as study material. Programming it really helped me on learn about the x86 architecture, drawing routines and 'retro' programming in general, sadly the comments in the code do not reflex this. So if you have any ask open an issue, the same with pull requests to provide better comments or more legible code (or fix my terrible English).
+Is not my idea to continue the project, I publishing it as an example of an working Mode-X prototype with the hope of being useful as study material. Programming it really helped me on learn about the x86 architecture, drawing routines and 'retro' programming in general, sadly the comments do not reflex this. So if you have any ask open an issue, the same with pull requests to provide better comments or more legible code (or fix my terrible English).
 
 Of course, fork the project and make it yours!.
 
@@ -63,6 +63,6 @@ Notes
 
 (2) Mode-X is really versatile allowing to use all the 256 kb of the Vga chip. The 960 pixels width limit obey the fact that its lefts space for an off-screen drawing buffer.
 
-(3) I am using the "Mode-X" term really vague here. While Wolfenstein 3d do not uses a 320x240 px resolution, it actually draw everything (every frame) on a planar arrange.
+(3) I am using the "Mode-X" term really vague here. While Wolfenstein 3d do not uses a 320x240 px resolution, actually draws everything (every frame) on a planar arrange.
 
-(4) Sprites follow the Mode-X planar arrange to allow being draw using a `memcpy` call every row. Backgrounds an top-to-bottom fashion as they need to be draw a column at time while scrolling (note that Kobe only scrolls horizontally). If desirable a single screen background can be arranged in planar mode and then draw with the fastest sprite routines.
+(4) Sprites follow the Mode-X planar arrange allowing being draw using a `memcpy` call every row. Backgrounds an top-to-bottom fashion as they need to be draw a column at time while scrolling (note that Kobe only scrolls horizontally). If desirable a single screen background can be arranged in planar mode and then draw with the fastest sprite routines.
